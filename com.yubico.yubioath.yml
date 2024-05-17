@@ -1,0 +1,51 @@
+app-id: com.yubico.yubioath
+runtime: org.gnome.Platform
+runtime-version: '45'
+sdk: org.gnome.Sdk
+command: authenticator
+finish-args:
+  - --socket=x11
+  - --socket=pcsc
+  - --device=all
+modules:
+  - name: pcsc-lite
+    config-opts:
+      - --disable-libudev
+      - --disable-libsystemd
+      - --without-systemdsystemunitdir
+      - --disable-serial
+      - --disable-usb
+      - --disable-documentation
+    cleanup:
+      - '/include'
+      - '/bin/pcsc-spy'
+      - '/lib/libpcscspy*'
+      - '/lib/pkg-config'
+      - '/share/doc'
+      - '/share/man'
+    post-install:
+      - rm /app/sbin/pcscd
+      - rmdir /app/sbin || true
+    sources:
+      - type: archive
+        url: https://pcsclite.apdu.fr/files/pcsc-lite-1.9.5.tar.bz2
+        sha256: 9ee3f9b333537562177893559ad4f7b8d5c23ebe828eef53056c02db14049d08
+  - name: pcsc-tools
+    cleanup:
+      - '/bin/gscriptor'
+      - '/bin/scriptor'
+      - '/bin/ATR_analysis'
+      - '/share/pcsc'
+      - '/share/man'
+    sources:
+      - type: archive
+        url: https://pcsc-tools.apdu.fr/pcsc-tools-1.7.1.tar.bz2
+        sha256: 0d024b589e15d79eac8506cd67df7b53cf91e9e6a493c8319f33cd29b5f36426
+  - name: yubico_authenticator
+    buildsystem: simple
+    build-commands:
+      - install -D authenticator /app/bin/authenticator
+      - cp -R data helper lib /app/bin/
+    sources:
+      - type: dir
+        path: app
