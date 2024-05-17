@@ -6,7 +6,7 @@ command: authenticator
 finish-args:
   - --socket=x11
   - --socket=pcsc
-  - --device=all
+  - --device=all  # needed for FIDO
 modules:
   - name: pcsc-lite
     config-opts:
@@ -16,6 +16,7 @@ modules:
       - --disable-serial
       - --disable-usb
       - --disable-documentation
+      - --disable-polkit
     cleanup:
       - '/include'
       - '/bin/pcsc-spy'
@@ -28,19 +29,8 @@ modules:
       - rmdir /app/sbin || true
     sources:
       - type: archive
-        url: https://pcsclite.apdu.fr/files/pcsc-lite-1.9.5.tar.bz2
-        sha256: 9ee3f9b333537562177893559ad4f7b8d5c23ebe828eef53056c02db14049d08
-  - name: pcsc-tools
-    cleanup:
-      - '/bin/gscriptor'
-      - '/bin/scriptor'
-      - '/bin/ATR_analysis'
-      - '/share/pcsc'
-      - '/share/man'
-    sources:
-      - type: archive
-        url: https://pcsc-tools.apdu.fr/pcsc-tools-1.7.1.tar.bz2
-        sha256: 0d024b589e15d79eac8506cd67df7b53cf91e9e6a493c8319f33cd29b5f36426
+        url: https://pcsclite.apdu.fr/files/pcsc-lite-2.2.1.tar.xz
+        sha256: 625edcd6cf4b45af015eb5b6b75ea47f8914e892774c67e1079c9553c8665a57
   - name: yubico_authenticator
     buildsystem: simple
     build-commands:
