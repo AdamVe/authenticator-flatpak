@@ -47,5 +47,6 @@ modules:
       - install -D authenticator /app/bin/authenticator
       - cp -R data helper lib /app/bin/
     sources:
-      - type: dir
-        path: app
+      - type: archive
+        url: https://developers.yubico.com/yubioath-flutter/Releases/yubico-authenticator-7.0.0-linux.tar.gz
+        sha256: ec6bdca21ffabb0565d0d63f3e5525953dbb98b7ac2263bacea3770a18555ee5
