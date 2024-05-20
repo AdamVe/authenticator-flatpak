@@ -1,12 +1,21 @@
 app-id: com.yubico.yubioath
 runtime: org.gnome.Platform
-runtime-version: '45'
+runtime-version: '46'
 sdk: org.gnome.Sdk
 command: authenticator
 finish-args:
-  - --socket=x11
+  - --socket=fallback-x11
+  - --socket=wayland
   - --socket=pcsc
-  - --device=all  # needed for FIDO
+  # key ring
+  - --socket=session-bus
+  # access to FIDO protocol
+  - --device=all
+  # save iconpacks locally
+  # - --filesystem=home:rw
+  # - --filesystem=xdg-config:rw
+  # - --filesystem=xdg-cache:rw
+  # - --filesystem=xdg-data:rw
 modules:
   - name: pcsc-lite
     config-opts:
@@ -31,6 +40,20 @@ modules:
       - type: archive
         url: https://pcsclite.apdu.fr/files/pcsc-lite-2.2.1.tar.xz
         sha256: 625edcd6cf4b45af015eb5b6b75ea47f8914e892774c67e1079c9553c8665a57
+  - name: zenity
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/zenity/4.0/zenity-4.0.1.tar.xz
+        sha256: 0c2f537813b10f728470d9d05d6c95713db2512f9c95096e1e85b1a6739605e6
+  - name: gnome-screenshot
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gnome-screenshot/41/gnome-screenshot-41.0.tar.xz
+        sha256: 4adb7dec926428f74263d5796673cf142e4720b6e768f5468a8d0933f98c9597
+      - type: patch
+        path: patch/0001-gnome-screenshot-meson-fix.patch
   - name: yubico_authenticator
     buildsystem: simple
     build-commands:
