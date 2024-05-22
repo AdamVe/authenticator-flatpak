@@ -30,3 +30,7 @@ Uninstall
 ```
 flatpak uninstall com.yubico.yubioath
 ```
+Create a bundle
+```
+flatpak build-bundle ~/.local/share/flatpak/repo authenticator.flatpak com.yubico.yubioath
+```
