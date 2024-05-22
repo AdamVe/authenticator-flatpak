@@ -11,11 +11,6 @@ finish-args:
   - --socket=session-bus
   # access to FIDO protocol
   - --device=all
-  # save iconpacks locally
-  # - --filesystem=home:rw
-  # - --filesystem=xdg-config:rw
-  # - --filesystem=xdg-cache:rw
-  # - --filesystem=xdg-data:rw
 modules:
   - name: pcsc-lite
     config-opts:
