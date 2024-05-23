@@ -1,7 +1,7 @@
 app-id: com.yubico.yubioath
-runtime: org.gnome.Platform
-runtime-version: '46'
-sdk: org.gnome.Sdk
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
 command: authenticator
 finish-args:
   - --socket=fallback-x11
@@ -35,14 +35,78 @@ modules:
       - type: archive
         url: https://pcsclite.apdu.fr/files/pcsc-lite-2.2.1.tar.xz
         sha256: 625edcd6cf4b45af015eb5b6b75ea47f8914e892774c67e1079c9553c8665a57
+  - name: libnotify
+    buildsystem: meson
+    config-opts:
+      - -Dtests=false
+      - -Dintrospection=disabled
+      - -Dman=false
+      - -Dgtk_doc=false
+      - -Ddocbook_docs=disabled
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.3.tar.xz
+        sha256: ee8f3ef946156ad3406fdf45feedbdcd932dbd211ab4f16f75eba4f36fb2f6c0
+  - name: pango
+    buildsystem: meson
+    config-opts:
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/pango/1.52/pango-1.52.2.tar.xz
+        sha256: d0076afe01082814b853deec99f9349ece5f2ce83908b8e58ff736b41f78a96b
+  - name: gtk4
+    buildsystem: meson
+    config-opts:
+      - -Dvulkan=disabled
+      - -Dintrospection=disabled
+      - -Ddocumentation=false
+      - -Dman-pages=false
+      - -Dbuild-demos=false
+      - -Dbuild-testsuite=false
+      - -Dbuild-examples=false
+      - -Dbuild-tests=false
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gtk/4.15/gtk-4.15.1.tar.xz
+        sha256: a801eb5f273fc4ad599dc841a6419ddf2e5c1f60e343535e4f6e76e861a5c31a
+  - name: libadwaita
+    buildsystem: meson
+    config-opts:
+      - -Dtests=false
+      - -Dexamples=false
+      - -Dgtk_doc=false
+      - -Dvapi=false
+      - -Dintrospection=disabled
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/libadwaita/1.5/libadwaita-1.5.rc.tar.xz
+        sha256: aa61580fd9502b1a5ffbc157b45c94c45984b4776006663b77ec59fff5ad18a8
   - name: zenity
     buildsystem: meson
+    config-opts:
+      - -Dmanpage=false
+      - -Dwebkitgtk=false
     sources:
       - type: archive
         url: https://download.gnome.org/sources/zenity/4.0/zenity-4.0.1.tar.xz
         sha256: 0c2f537813b10f728470d9d05d6c95713db2512f9c95096e1e85b1a6739605e6
+  - name: libhandy
+    buildsystem: meson
+    config-opts:
+      - -Dintrospection=disabled
+      - -Dvapi=false
+      - -Dgtk_doc=false
+      - -Dtests=false
+      - -Dexamples=false
+      - -Dglade_catalog=disabled
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/libhandy/1.8/libhandy-1.8.3.tar.xz
+        sha256: 05b497229073ff557f10b326e074c5066f8743a302d4820ab97bcb5cd2dab087
   - name: gnome-screenshot
     buildsystem: meson
+    config-opts:
+      - -Dx11=enabled
     sources:
       - type: archive
         url: https://download.gnome.org/sources/gnome-screenshot/41/gnome-screenshot-41.0.tar.xz
